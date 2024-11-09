@@ -21,10 +21,14 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 
 @WebServlet("/AppointmentController")
 public class AppointmentController extends HttpServlet {
@@ -93,7 +97,7 @@ public class AppointmentController extends HttpServlet {
         }
     }
 
-    private void addAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+/*    private void addAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String a_ID = request.getParameter("a_ID");
         String p_ID = request.getParameter("p_ID");
         String e_ID = request.getParameter("e_ID");
@@ -122,6 +126,86 @@ public class AppointmentController extends HttpServlet {
             request.getRequestDispatcher("appointmentForm.jsp").forward(request, response);
         }
     }
+    */
+
+private void addAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String a_ID = request.getParameter("a_ID");
+    String p_ID = request.getParameter("p_ID");
+    String e_ID = request.getParameter("e_ID");
+    String t_ID = request.getParameter("TreatmentID");
+    String a_Status = request.getParameter("appointmentStatus");
+    double reg_Fee = Double.parseDouble(request.getParameter("registrationFee"));
+    double t_Price = Double.parseDouble(request.getParameter("treatmentPrice"));
+    int schedule_ID = Integer.parseInt(request.getParameter("scheduleID"));
+    int time_range_ID = Integer.parseInt(request.getParameter("timeRangeID"));
+    String dateStr = request.getParameter("a_Date");
+    String timeStr = request.getParameter("a_Time");
+
+    // Parse date and time strings using SimpleDateFormat
+    Date a_Date = null;
+    Time a_Time = null;
+    try {
+        if (dateStr != null && !dateStr.isEmpty()) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date parsedDate = dateFormat.parse(dateStr);
+            a_Date = new Date(parsedDate.getTime());  // Convert java.util.Date to java.sql.Date
+
+            // Log date data for debugging
+            System.out.println("Parsed Appointment Date: " + a_Date); // This will print to console or logs
+        } else {
+            request.setAttribute("error", "Date is required.");
+            request.getRequestDispatcher("appointmentForm.jsp").forward(request, response);
+            return;
+        }
+
+        if (timeStr != null && !timeStr.isEmpty()) {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+            java.util.Date parsedTime = timeFormat.parse(timeStr);
+            a_Time = new Time(parsedTime.getTime());
+
+            // Log time data for debugging
+            System.out.println("Parsed Appointment Time: " + a_Time); // This will print to console or logs
+        } else {
+            request.setAttribute("error", "Time is required.");
+            request.getRequestDispatcher("appointmentForm.jsp").forward(request, response);
+            return;
+        }
+
+    } catch (ParseException e) {
+        request.setAttribute("error", "Invalid date or time format.");
+        request.getRequestDispatcher("appointmentForm.jsp").forward(request, response);
+        return;
+    }
+
+    // Check if time slot is available
+    boolean isAvailable = timeRangeService.isTimeSlotAvailable(time_range_ID);
+    if (isAvailable) {
+        Appointment appointment = new Appointment(a_ID, p_ID, e_ID, a_Date, a_Time, t_ID, reg_Fee, t_Price, a_Status, schedule_ID, time_range_ID);
+
+        // Log appointment data for debugging
+        System.out.println("Appointment Object: " + appointment.toString());
+
+        boolean appointmentAdded = appointmentService.addAppointment(appointment);
+        if (appointmentAdded) {
+            // Log success and alert
+            System.out.println("Appointment added successfully!");
+            timeRangeService.markAsBooked(time_range_ID, p_ID);
+            request.setAttribute("success", "Appointment added successfully.");
+            request.getRequestDispatcher("appointmentForm.jsp").forward(request, response);  // Redirect to appointment list or success page
+        } else {
+            request.setAttribute("error", "Failed to add appointment. Please try again.");
+            request.getRequestDispatcher("appointmentForm.jsp").forward(request, response);
+        }
+    } else {
+        request.setAttribute("error", "Selected time slot is not available.");
+        request.getRequestDispatcher("appointmentForm.jsp").forward(request, response);
+    }
+}
+
+
+
+
+
 
 // Method to handle "getAvailableTimeSlots" action
     private void getAvailableTimeSlots(HttpServletRequest request, HttpServletResponse response) throws IOException {

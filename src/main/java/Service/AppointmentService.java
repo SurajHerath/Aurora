@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import Service.ScheduleService;
 import Service.TimeRangeService;
+import java.sql.Date;
+import java.sql.Time;
 
 public class AppointmentService {
 
@@ -45,31 +47,40 @@ public class AppointmentService {
  
 
     // Method to add an appointment
-    public boolean addAppointment(Appointment appointment) {
-        String query = "INSERT INTO appointment (a_ID, p_ID, e_ID, a_Date, a_time, time_range_ID, schedule_ID, t_ID, reg_Fee, t_Price, a_Status) "
-                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = db.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
+   // Method to add an appointment
+public boolean addAppointment(Appointment appointment) {
+     java.util.Date utilDate = appointment.getA_Date();  // This is a java.util.Date object
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());  
+    
+    String query = "INSERT INTO appointment (a_ID, p_ID, e_ID, a_Date, a_time, time_range_ID, schedule_ID, t_ID, reg_Fee, t_Price, a_Status) "
+                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            stmt.setString(1, appointment.getA_ID());
-            stmt.setString(2, appointment.getP_ID());
-            stmt.setString(3, appointment.getE_ID());
-            stmt.setString(4, appointment.getA_Date());
-            stmt.setString(5, appointment.getA_time());
-            stmt.setInt(6, appointment.getTime_range_ID());
-            stmt.setInt(7, appointment.getSchedule_ID());
-            stmt.setString(8, appointment.getT_ID());
-            stmt.setDouble(9, appointment.getReg_Fee());
-            stmt.setDouble(10, appointment.getT_Price());
-            stmt.setString(11, appointment.getA_Status());
+    try (Connection connection = db.getConnection();
+         PreparedStatement stmt = connection.prepareStatement(query)) {
 
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0; // Return true if insertion is successful
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false; // Return false if there's an error
-        }
+        // Setting parameters in the prepared statement from the Appointment object
+        stmt.setString(1, appointment.getA_ID());
+        stmt.setString(2, appointment.getP_ID());
+        stmt.setString(3, appointment.getE_ID());
+        stmt.setDate(4, (Date) appointment.getA_Date());      // Java.sql.Date expected
+        stmt.setTime(5, appointment.getA_time());      // Java.sql.Time expected
+        stmt.setInt(6, appointment.getTime_range_ID());
+        stmt.setInt(7, appointment.getSchedule_ID());
+        stmt.setString(8, appointment.getT_ID());
+        stmt.setDouble(9, appointment.getReg_Fee());
+        stmt.setDouble(10, appointment.getT_Price());
+        stmt.setString(11, appointment.getA_Status());
+
+        // Execute the update and check if insertion was successful
+        int rowsAffected = stmt.executeUpdate();
+        return rowsAffected > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
+
 
     // Method to check if the appointment time slot is available
     public boolean isTimeSlotAvailable(int timeRangeID) {
@@ -84,14 +95,14 @@ public class AppointmentService {
 
 
 
-    // Update an appointment
+  // Update an appointment
     public boolean updateAppointment(Appointment appointment) {
         String sql = "UPDATE Appointment SET p_ID=?, e_ID=?, a_Date=?, a_time=?, t_ID=?, reg_Fee=?, t_Price=?, a_Status=?, schedule_ID=?, time_range_ID=? WHERE a_ID=?";
         try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, appointment.getP_ID());
             statement.setString(2, appointment.getE_ID());
-            statement.setString(4, appointment.getA_Date());
-            statement.setString(4, appointment.getA_time());
+            statement.setDate(4, (Date) appointment.getA_Date());
+            statement.setTime(4, appointment.getA_time());
             statement.setString(5, appointment.getT_ID());
             statement.setDouble(6, appointment.getReg_Fee());
             statement.setDouble(7, appointment.getT_Price());
@@ -105,6 +116,7 @@ public class AppointmentService {
             return false;
         }
     }
+
 
     // Delete an appointment
     public boolean deleteAppointment(String a_ID) {
@@ -129,8 +141,8 @@ public class AppointmentService {
                         resultSet.getString("a_ID"),
                         resultSet.getString("p_ID"),
                         resultSet.getString("e_ID"),
-                        resultSet.getString("a_Date"),
-                        resultSet.getString("a_time"),
+                        resultSet.getDate("a_Date"),
+                        resultSet.getTime("a_time"),
                         resultSet.getString("t_ID"),
                         resultSet.getDouble("reg_Fee"),
                         resultSet.getDouble("t_Price"),
@@ -155,8 +167,8 @@ public class AppointmentService {
                         resultSet.getString("a_ID"),
                         resultSet.getString("p_ID"),
                         resultSet.getString("e_ID"),
-                        resultSet.getString("a_Date"),
-                        resultSet.getString("a_time"),
+                        resultSet.getDate("a_Date"),
+                        resultSet.getTime("a_time"),
                         resultSet.getString("t_ID"),
                         resultSet.getDouble("reg_Fee"),
                         resultSet.getDouble("t_Price"),
@@ -186,8 +198,8 @@ public class AppointmentService {
                         resultSet.getString("a_ID"),
                         resultSet.getString("p_ID"),
                         resultSet.getString("e_ID"),
-                        resultSet.getString("a_Date"),
-                        resultSet.getString("a_time"),
+                        resultSet.getDate("a_Date"),
+                        resultSet.getTime("a_time"),
                         resultSet.getString("t_ID"),
                         resultSet.getDouble("reg_Fee"),
                         resultSet.getDouble("t_Price"),

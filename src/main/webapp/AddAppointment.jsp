@@ -96,7 +96,7 @@
 
                     <div class="form-group">
                         <label for="appointmentDate">Appointment Date:</label>
-                        <input type="date" class="form-control" id="a_Date" name="appointmentDate" required> <!--use that for insert-->
+                        <input type="date" class="form-control" id="a_Date" name="a_Date" required> <!--use that for insert-->
                     </div>
 
                     <div class="form-group">
@@ -117,14 +117,16 @@
 
                     <div class="form-group">
                         <label for="timeSlot">Available Time Slot:</label>
-                        <select class="form-control" id="a_Time" name="a_Time" required onchange="updateTimeRangeID()"> <!--use that for insert(get stat time only)-->
+                        <select class="form-control" id="a_Time" name="a_Time" required onchange="updateTimeRangeID()"> 
                             <option value="">Select Time Slot</option>
                         </select>
-                        <input type="text" class="form-control" id="timeRangeID" name="timeRangeID" readonly> <!--use that for insert-->
+                        <input type="text" class="form-control" id="timeRangeID" name="timeRangeID" readonly> <!-- use this for insert -->
                         <br>
-                        <input type="text" class="form-control" id="scheduleID" name="scheduleID" readonly> <!--use that for insert-->
+                        <input type="text" class="form-control" id="scheduleID" name="scheduleID" readonly> <!-- use this for insert -->
+                        <br>
+                        <input type="text" class="form-control" id="startTime" name="startTime" placeholder="HH.MM.SS" required> <!-- Show start time --><!-- use this for insert (get start time only) -->
+                        <input type="text" class="form-control" id="endTime" name="endTime" readonly> <!-- Show end time (for display) -->
                     </div>
-
 
 
 
@@ -184,8 +186,11 @@
                     if (selectedOption) {
                         document.getElementById("timeRangeID").value = selectedOption.value; // Set timeRangeID
                         document.getElementById("scheduleID").value = selectedOption.getAttribute("data-schedule-id"); // Set scheduleID
+                        document.getElementById("startTime").value = selectedOption.getAttribute("data-start-time"); // Set start time
+                        document.getElementById("endTime").value = selectedOption.getAttribute("data-end-time"); // Set end time
                     }
                 }
+
 
 
 
@@ -234,8 +239,10 @@
                                         data.forEach(timeSlot => {
                                             const option = document.createElement("option");
                                             option.value = timeSlot.timeRangeID; // Set timeRangeID as the option value
-                                            option.text = timeSlot.startTime + " - " + timeSlot.endTime;
+                                            option.text = timeSlot.startTime; // Set only start time for the text
                                             option.setAttribute("data-schedule-id", timeSlot.scheduleID); // Set scheduleID as data attribute
+                                            option.setAttribute("data-start-time", timeSlot.startTime); // Set start time as data attribute
+                                            option.setAttribute("data-end-time", timeSlot.endTime); // Set end time as data attribute
                                             timeSlotSelect.appendChild(option);
                                         });
                                     } else {
@@ -255,9 +262,7 @@
                     }
                 }
 
-
-
-// Add event listeners when the DOM is fully loaded
+                // Add event listeners when the DOM is fully loaded
                 document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('dermatologist').addEventListener('change', function () {
                         updateDermatologistID();
