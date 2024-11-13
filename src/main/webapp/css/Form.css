@@ -1,0 +1,76 @@
+/* Background styling */
+/* Footer Styles */
+            .footer {
+                background-color: #333333;
+                color: #ffffff;
+                padding: 50px 0;
+            }
+
+            .footer h3 {
+                color: #67b0d1;
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 20px;
+            }
+
+            .footer p, .footer ul li {
+                font-size: 14px;
+                line-height: 24px;
+                margin-bottom: 12px;
+            }
+
+            .footer ul {
+                list-style: none;
+                padding-left: 0;
+            }
+
+            .footer ul li a {
+                color: #ffffff;
+                text-decoration: none;
+                transition: 0.3s;
+            }
+
+            .footer ul li a:hover {
+                color: #67b0d1;
+                padding-left: 5px;
+            }
+
+            .footer .copyright {
+                border-top: 1px solid #485761;
+                text-align: center;
+                padding-top: 30px;
+                margin-top: 30px;
+            }
+
+            #map {
+                background-color: #485761;
+                border-radius: 5px;
+            }
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            main {
+                flex: 1 0 auto;
+            }
+            .appointment-form {
+                background-color: #c5c5c5;
+                border-radius: 8px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+            .form-group {
+                margin-bottom: 20px;
+
+            }
+            .btn-primary {
+                background-color: #67b0d1;
+                border-color: #67b0d1;
+            }
+            .btn-primary:hover {
+                background-color: #4a9bc0;
+                border-color: #4a9bc0;
+            }

@@ -21,6 +21,7 @@
 <%@ page import="com.google.gson.Gson" %>
 
 <%
+    // Your existing Java code here
     String patientId = request.getParameter("p_ID");
 
     PatientService patientService = new PatientService();
@@ -34,249 +35,340 @@
     List<Dermatologist> dermatologists = dermatologistService.getAllDermatologists();
     List<Treatment> treatments = treatmentService.getAllTreatments();
     List<Employees> employees = employeeService.getAllEmployees();
-
-
 %>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Aurora Skin Care Clinic</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-        <link href="css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Book Appointment - Aurora Skin Care Clinic</title>
+
+        <!-- Your existing CSS links -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
+        <link href="css/nav_and_footer.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/Form.css" rel="stylesheet">
+
+        
     </head>
+
     <body>
-        <main> 
-            <div class="container">
-                <h2>Book an Appointment</h2>
+        <!-- Header -->
+        <header id="header" class="header d-flex align-items-center fixed-top">
+            <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+                <a href="index.html" class="logo d-flex align-items-center">
+                    <h1 class="sitename">Aurora Skin Care Clinic</h1>
+                </a>
+                <nav id="navmenu" class="navmenu">
+                    <ul>
+                        <li><a href="Index.jsp" class="active">Home</a></li>
+                        <li><a href="About.jsp">About</a></li>
+                        <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="TreatmentController?action=list">View Treatment</a></li>
+                                <li><a href="ScheduleController?action=list">View Schedule</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#"><span>Dermatologists</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="Registerdermatologist.jsp">Register Dermatologist</a></li>
+                                <li><a href="DermatologistController?action=list">View Dermatologists</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#"><span>Patient</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="PatientRegister.jsp">Register Patient</a></li>
+                                <li><a href="PatientController?action=list">View Patient</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a href="#"><span>Appointment</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="AddAppointment.jsp">Make Appointment</a></li>
+                                <li><a href="AppointmentController?action=list">View Appointments</a></li>
+                            </ul>
+                        </li> 
+                    </ul>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                </nav>
+            </div>
+        </header>
 
-                <form action="AppointmentController?action=add" method="post">
-
-
-                    <div class="form-group">
-                        <label for="a_ID">Appointment ID:</label>
-                        <input type="text" class="form-control" id="a_ID" name="a_ID" required> <!--use that for insert-->
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="patientSearch">Search by NIC or Name:</label>
-                        <input type="text" class="form-control" id="patientSearch" placeholder="Enter NIC or Name">
-                        <button type="button" onclick="searchPatient()">Search</button>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="p_ID">Patient ID:</label>
-                        <input type="text" class="form-control" id="p_ID" name="p_ID" readonly> <!--use that for insert-->
-                    </div>
-                    <div class="form-group">
-                        <label for="p_Name">Patient Name:</label>
-                        <input type="text" class="form-control" id="p_Name" name="p_Name" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="dermatologist">Choose Dermatologist:</label>
-                        <select class="form-control" id="dermatologist" name="dermatologist" required onchange="updateDermatologistID(); clearTimeSlots()">
-                            <option value="">Select Dermatologist</option>
-                            <% for (Dermatologist d : dermatologists) {
-                                    for (Employees e : employees) {
-                                        if (d.getE_ID().equals(e.getE_ID())) {%>
-                            <option value="<%= d.getE_ID()%>"><%= e.getE_Name()%></option>
-                            <% }
-                                    }
-                                } %>
-                        </select>
-                        <input type="text" class="form-control" id="e_ID" name="e_ID" readonly>  <!--use that for insert-->
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="appointmentDate">Appointment Date:</label>
-                        <input type="date" class="form-control" id="a_Date" name="a_Date" required> <!--use that for insert-->
-                    </div>
-
-                    <div class="form-group">
-                        <label><b>Day of Week</b></label>
-                        <select name="dayOfWeek" class="form-control my-1" required> 
-                            <option value="">Select Day</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                            <option value="Sunday">Sunday</option>
-                        </select>
-                        <button type="button" onclick="searchTimeSlot()">Search</button>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="timeSlot">Available Time Slot:</label>
-                        <select class="form-control" id="a_Time" name="a_Time" required onchange="updateTimeRangeID()"> 
-                            <option value="">Select Time Slot</option>
-                        </select>
-                        <input type="text" class="form-control" id="timeRangeID" name="timeRangeID" readonly> <!-- use this for insert -->
-                        <br>
-                        <input type="text" class="form-control" id="scheduleID" name="scheduleID" readonly> <!-- use this for insert -->
-                        <br>
-                        <input type="text" class="form-control" id="startTime" name="startTime" placeholder="HH.MM.SS" required> <!-- Show start time --><!-- use this for insert (get start time only) -->
-                        <input type="text" class="form-control" id="endTime" name="endTime" readonly> <!-- Show end time (for display) -->
-                    </div>
-
-
-
-
-
-                    <div class="form-group">
-                        <label for="treatment">Choose Treatment:</label>
-                        <select class="form-control" id="treatment" name="treatment" required onchange="showTreatmentPrice()">
-                            <option value="">Select Treatment</option>
-                            <% for (Treatment t : treatments) {%>
-                            <option value="<%= t.getT_Name()%>" data-price="<%= t.getT_Price()%>" data-id="<%= t.getT_ID()%>">
-                                <%= t.getT_Name()%> - $<%= t.getT_Price()%>
-                            </option>
-                            <% }%>
-                        </select>
-                        <input type="text" class="form-control" id="TreatmentID" name="TreatmentID" readonly> <!-- This will show the treatment ID -->
-                    </div>
-
-                    <div class="form-group">
-                        <label for="treatmentPrice">Treatment Price:</label>
-                        <input type="text" class="form-control" id="treatmentPrice" name="treatmentPrice" readonly> <!-- This will show the treatment price -->
-                    </div>
-
-
-
-                    <div class="form-group">
-                        <label for="registrationFee">Registration Fee:</label>
-                        <input type="number" class="form-control" id="registrationFee" name="registrationFee" required> <!--use that for insert-->
-                    </div>
-
-                    <div class="form-group">
-                        <label for="appointmentStatus">Appointment Status:</label>
-                        <select class="form-control" id="appointmentStatus" name="appointmentStatus" required> <!--use that for insert-->
-                            <option value="Scheduled">Scheduled</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Confirmed">Confirmed</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Confirm Appointment</button>
-
-                </form>
+        <main>
+            <!-- Page Title -->
+            <div class="page-title accent-background" style="background-image:url('img/doctor1.jpg');">
+                <div class="container position-relative">
+                    <h1>Book Appointment</h1> 
+                    <a href="#appointmentForm" class="btn-scroll" title="Scroll Down"><i class="bi bi-chevron-down"></i></a>
+                </div>
             </div>
 
-            <script>
+            
+            
+            
+            <!-- Appointment Form -->
+            <section id="appointmentForm" class="appointment-section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="appointment-form">
+                                <h2 class="text-center mb-4">Book Your Appointment</h2>
+                                <form action="AppointmentController?action=add" method="post">
+                                    <div class="form-group">
+                                        <label for="a_ID">Appointment ID:</label>
+                                        <input type="text" class="form-control" id="a_ID" name="a_ID" required>
+                                    </div>
 
-                function updateDermatologistID() {
-                    var select = document.getElementById("dermatologist");
-                    var selectedID = select.options[select.selectedIndex].value;
-                    document.getElementById("e_ID").value = selectedID;
-                }
+                                    <div class="form-group">
+                                        <label for="patientSearch">Search by NIC or Name:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="patientSearch" placeholder="Enter NIC or Name">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="button" onclick="searchPatient()">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                function updateTimeRangeID() {
-                    const timeSlotSelect = document.getElementById("a_Time");
-                    const selectedOption = timeSlotSelect.options[timeSlotSelect.selectedIndex];
+                                    <div class="form-group">
+                                        <label for="p_ID">Patient ID:</label>
+                                        <input type="text" class="form-control" id="p_ID" name="p_ID" readonly>
+                                    </div>
 
-                    if (selectedOption) {
-                        document.getElementById("timeRangeID").value = selectedOption.value; // Set timeRangeID
-                        document.getElementById("scheduleID").value = selectedOption.getAttribute("data-schedule-id"); // Set scheduleID
-                        document.getElementById("startTime").value = selectedOption.getAttribute("data-start-time"); // Set start time
-                        document.getElementById("endTime").value = selectedOption.getAttribute("data-end-time"); // Set end time
-                    }
-                }
+                                    <div class="form-group">
+                                        <label for="p_Name">Patient Name:</label>
+                                        <input type="text" class="form-control" id="p_Name" name="p_Name" readonly>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="dermatologist">Choose Dermatologist:</label>
+                                        <select class="form-control" id="dermatologist" name="dermatologist" required onchange="updateDermatologistID(); clearTimeSlots()">
+                                            <option value="">Select Dermatologist</option>
+                                            <% for (Dermatologist d : dermatologists) {
+                                                for (Employees e : employees) {
+                                                    if (d.getE_ID().equals(e.getE_ID())) {%>
+                                            <option value="<%= d.getE_ID()%>"><%= e.getE_Name()%></option>
+                                            <% }
+                                                       }
+                                                   } %>
+                                        </select>
+                                        <input type="hidden" id="e_ID" name="e_ID">
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="a_Date">Appointment Date:</label>
+                                        <input type="date" class="form-control" id="a_Date" name="a_Date" required>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="dayOfWeek">Day of Week:</label>
+                                        <select name="dayOfWeek" id="dayOfWeek" class="form-control" required>
+                                            <option value="">Select Day</option>
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednesday">Wednesday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                            <option value="Sunday">Sunday</option>
+                                        </select>
+                                    </div>
 
-                function searchPatient() {
-                    var searchQuery = document.getElementById('patientSearch').value;
-                    fetch("AppointmentController?action=searchPatient&query=" + searchQuery)
-                            .then(response => response.json())
-                            .then(data => {
-                                document.getElementById("p_ID").value = data.patient.p_ID;
-                                document.getElementById("p_Name").value = data.patient.p_Name;
-                            });
-                }
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-secondary" onclick="searchTimeSlot()">Search Time Slots</button>
+                                    </div>
 
-                function showTreatmentPrice() {
-                    var treatmentSelect = document.getElementById('treatment');
-                    var price = treatmentSelect.options[treatmentSelect.selectedIndex].getAttribute('data-price');
-                    var treatmentID = treatmentSelect.options[treatmentSelect.selectedIndex].getAttribute('data-id');
+                                    <div class="form-group">
+                                        <label for="a_Time">Available Time Slot:</label>
+                                        <select class="form-control" id="a_Time" name="a_Time" required onchange="updateTimeRangeID()">
+                                            <option value="">Select Time Slot</option>
+                                        </select>
+                                        <input type="text" id="timeRangeID" name="timeRangeID">
+                                        <input type="text" id="scheduleID" name="scheduleID">
+                                        <input type="text" id="startTime" name="startTime">
+                                        <input type="text" id="endTime" name="endTime">
+                                    </div>
 
-                    document.getElementById('treatmentPrice').value = price;
-                    document.getElementById('TreatmentID').value = treatmentID; // Set the Treatment ID
-                }
+                                    <div class="form-group">
+                                        <label for="treatment">Choose Treatment:</label>
+                                        <select class="form-control" id="treatment" name="treatment" required onchange="showTreatmentPrice()">
+                                            <option value="">Select Treatment</option>
+                                            <% for (Treatment t : treatments) {%>
+                                            <option value="<%= t.getT_Name()%>" data-price="<%= t.getT_Price()%>" data-id="<%= t.getT_ID()%>">
+                                                <%= t.getT_Name()%> - $<%= t.getT_Price()%>
+                                            </option>
+                                            <% }%>
+                                        </select>
+                                        <input type="hidden" id="TreatmentID" name="TreatmentID">
+                                    </div>
 
-                // Function to clear time slots when dermatologist or date changes
-                function clearTimeSlots() {
-                    document.getElementById("timeSlot").innerHTML = "<option value=''>Select Time Slot</option>";
-                }
+                                    <div class="form-group">
+                                        <label for="treatmentPrice">Treatment Price:</label>
+                                        <input type="text" class="form-control" id="treatmentPrice" name="treatmentPrice" readonly>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="registrationFee">Registration Fee:</label>
+                                        <input type="number" class="form-control" id="registrationFee" name="registrationFee" required>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="appointmentStatus">Appointment Status:</label>
+                                        <select class="form-control" id="appointmentStatus" name="appointmentStatus" required>
+                                            <option value="Scheduled">Scheduled</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Confirmed">Confirmed</option>
+                                        </select>
+                                    </div>
 
-                function searchTimeSlot() {
-                    const eID = document.getElementById("e_ID").value;
-                    const dayOfWeek = document.querySelector('select[name="dayOfWeek"]').value;
-
-                    if (eID && dayOfWeek) {
-                        fetch("AppointmentController?action=getAvailableTimeSlots&eID=" + eID + "&dayOfWeek=" + dayOfWeek)
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error(`HTTP status ${response.status}`);
-                                    }
-                                    return response.json();
-                                })
-                                .then(data => {
-                                    const timeSlotSelect = document.getElementById("a_Time");
-                                    timeSlotSelect.innerHTML = "<option value=''>Select Time Slot</option>";
-                                    if (data && data.length > 0) {
-                                        data.forEach(timeSlot => {
-                                            const option = document.createElement("option");
-                                            option.value = timeSlot.timeRangeID; // Set timeRangeID as the option value
-                                            option.text = timeSlot.startTime; // Set only start time for the text
-                                            option.setAttribute("data-schedule-id", timeSlot.scheduleID); // Set scheduleID as data attribute
-                                            option.setAttribute("data-start-time", timeSlot.startTime); // Set start time as data attribute
-                                            option.setAttribute("data-end-time", timeSlot.endTime); // Set end time as data attribute
-                                            timeSlotSelect.appendChild(option);
-                                        });
-                                    } else {
-                                        const option = document.createElement("option");
-                                        option.value = '';
-                                        option.text = 'No available time slots';
-                                        timeSlotSelect.appendChild(option);
-                                        alert("No available time slots found.");
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error("Error fetching time slots:", error);
-                                    alert("Error fetching available time slots: " + error.message);
-                                });
-                    } else {
-                        alert("Please select both a dermatologist and day of the week.");
-                    }
-                }
-
-                // Add event listeners when the DOM is fully loaded
-                document.addEventListener('DOMContentLoaded', function () {
-                    document.getElementById('dermatologist').addEventListener('change', function () {
-                        updateDermatologistID();
-                        clearTimeSlots();
-                    });
-
-                    document.querySelector('select[name="dayOfWeek"]').addEventListener('change', clearTimeSlots);
-
-                    // Add event listener for the search button
-                    document.querySelector('button[onclick="searchTimeSlot()"]').addEventListener('click', searchTimeSlot);
-
-                    document.getElementById('a_Time').addEventListener('change', updateTimeRangeID);
-                });
-            </script>
+                                    <button type="submit" class="btn btn-primary btn-block">Confirm Appointment</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
+
+                                        
+                                        
+       
+        <!-- Footer -->
+        <footer id="footer" class="footer bg-dark text-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <h3>Aurora Skin Care Clinic</h3>
+                        <p>1234 Street, Colombo</p>
+                        <p>Phone: +94 234 567 890</p>
+                        <p>Email: info@auroraskincare.com</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h3>Useful Links</h3>
+                        <ul class="list-unstyled">
+                            <li><a href="index.jsp" class="text-white">Home</a></li>
+                            <li><a href="About.jsp" class="text-white">About Us</a></li>
+                            <li><a href="#" class="text-white">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h3>Our Location</h3>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7921.394273278218!2d79.85675267056916!3d6.92675921935115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae253d10f7a7003%3A0x320b2e4d32d3838d!2sColombo!5e0!3m2!1sen!2slk!4v1729502352015!5m2!1sen!2slk" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-12 text-center">
+                        <p>&copy; 2024 Aurora Skin Care Clinic. All Rights Reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Scripts -->
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+                                            function updateDermatologistID() {
+                                                var select = document.getElementById("dermatologist");
+                                                var selectedID = select.options[select.selectedIndex].value;
+                                                document.getElementById("e_ID").value = selectedID;
+                                            }
+
+                                            function updateTimeRangeID() {
+                                                const timeSlotSelect = document.getElementById("a_Time");
+                                                const selectedOption = timeSlotSelect.options[timeSlotSelect.selectedIndex];
+
+                                                if (selectedOption) {
+                                                    document.getElementById("timeRangeID").value = selectedOption.value;
+                                                    document.getElementById("scheduleID").value = selectedOption.getAttribute("data-schedule-id");
+                                                    document.getElementById("startTime").value = selectedOption.getAttribute("data-start-time");
+                                                    document.getElementById("endTime").value = selectedOption.getAttribute("data-end-time");
+                                                }
+                                            }
+
+                                            function searchPatient() {
+                                                var searchQuery = document.getElementById('patientSearch').value;
+                                                fetch("AppointmentController?action=searchPatient&query=" + searchQuery)
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            document.getElementById("p_ID").value = data.patient.p_ID;
+                                                            document.getElementById("p_Name").value = data.patient.p_Name;
+                                                        });
+                                            }
+
+                                            function showTreatmentPrice() {
+                                                var treatmentSelect = document.getElementById('treatment');
+                                                var price = treatmentSelect.options[treatmentSelect.selectedIndex].getAttribute('data-price');
+                                                var treatmentID = treatmentSelect.options[treatmentSelect.selectedIndex].getAttribute('data-id');
+
+                                                document.getElementById('treatmentPrice').value = price;
+                                                document.getElementById('TreatmentID').value = treatmentID;
+                                            }
+
+                                            function clearTimeSlots() {
+                                                document.getElementById("a_Time").innerHTML = "<option value=''>Select Time Slot</option>";
+                                            }
+
+                                            function searchTimeSlot() {
+                                                const eID = document.getElementById("e_ID").value;
+                                                const dayOfWeek = document.getElementById("dayOfWeek").value;
+
+                                                if (eID && dayOfWeek) {
+                                                    fetch("AppointmentController?action=getAvailableTimeSlots&eID=" + eID + "&dayOfWeek=" + dayOfWeek)
+                                                            .then(response => {
+                                                                if (!response.ok) {
+                                                                    throw new Error(`HTTP status ${response.status}`);
+                                                                }
+                                                                return response.json();
+                                                            })
+                                                            .then(data => {
+                                                                console.log("Data received:", data);
+
+                                                                const timeSlotSelect = document.getElementById("a_Time");
+                                                                timeSlotSelect.innerHTML = "<option value=''>Select Time Slot</option>";
+
+                                                                if (data && data.length > 0) {
+                                                                    data.forEach(timeSlot => {
+                                                                        const option = document.createElement("option");
+                                                                        option.value = timeSlot.timeRangeID;
+
+                                                                        const startTime = timeSlot.startTime && timeSlot.startTime.trim() ? timeSlot.startTime : "N/A";
+                                                                        const endTime = timeSlot.endTime && timeSlot.endTime.trim() ? timeSlot.endTime : "N/A";
+
+                                                                        option.text = `${startTime} - ${endTime}`;
+                                                                                                        option.setAttribute("data-schedule-id", timeSlot.scheduleID);
+                                                                                                        option.setAttribute("data-start-time", startTime);
+                                                                                                        option.setAttribute("data-end-time", endTime);
+
+                                                                                                        timeSlotSelect.appendChild(option);
+                                                                                                    });
+                                                                                                } else {
+                                                                                                    const option = document.createElement("option");
+                                                                                                    option.value = '';
+                                                                                                    option.text = 'No available time slots';
+                                                                                                    timeSlotSelect.appendChild(option);
+                                                                                                    alert("No available time slots found.");
+                                                                                                }
+                                                                                            })
+                                                                                            .catch(error => {
+                                                                                                console.error("Error fetching time slots:", error);
+                                                                                                alert("Error fetching available time slots: " + error.message);
+                                                                                            });
+                                                                                } else {
+                                                                                    alert("Please select both a dermatologist and day of the week.");
+                                                                                }
+                                                                            }
+
+                                                                            document.addEventListener('DOMContentLoaded', function () {
+                                                                                document.getElementById('dermatologist').addEventListener('change', function () {
+                                                                                    updateDermatologistID();
+                                                                                    clearTimeSlots();
+                                                                                });
+
+                                                                                document.getElementById('dayOfWeek').addEventListener('change', clearTimeSlots);
+                                                                                document.getElementById('a_Time').addEventListener('change', updateTimeRangeID);
+                                                                            });
+        </script>
     </body>
 </html>

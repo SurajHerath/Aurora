@@ -18,6 +18,8 @@ Controller\PatientController.class
 Model\Schedule.class
 Controller\TreatmentController.class
 com\mycompany\auroraskincareclinic\JakartaRestConfiguration.class
+Controller\InvoiceController.class
+Service\InvoiceService.class
 Controller\AppointmentController.class
 com\mycompany\auroraskincareclinic\resources\JakartaEE10Resource.class
 Service\PatientService.class

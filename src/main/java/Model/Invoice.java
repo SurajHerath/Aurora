@@ -84,39 +84,20 @@ public class Invoice {
         this.Invoice_Issue_Date = Invoice_Issue_Date;
     }
 
+    
+    
+    
+    
+    
+    
+    
     // Method to calculate total amount
     public double calculateTotalAmount() {
         return this.Total_Fee + (this.Total_Fee * this.Tax_Rate / 100);
     }
 
-    // Method to save invoice to database
-    public void saveToDatabase() {
-        try {
-            // JDBC Connection
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/yourdb", "root", "password");
+    
 
-            // SQL query to insert invoice into database
-            String query = "INSERT INTO Invoice (Invoice_ID, A_ID, P_ID, Tax_Rate, Total_Fee, Total_Amount, Invoice_Issue_Date) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, this.Invoice_ID);
-            pstmt.setString(2, this.A_ID);
-            pstmt.setString(3, this.P_ID);
-            pstmt.setDouble(4, this.Tax_Rate);
-            pstmt.setDouble(5, this.Total_Fee);
-            pstmt.setDouble(6, this.Total_Amount);
-            pstmt.setDate(7, new java.sql.Date(this.Invoice_Issue_Date.getTime()));
-
-            pstmt.executeUpdate();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Method to generate invoice and save to database
-    public void generateInvoice() {
-        this.Total_Amount = calculateTotalAmount();
-        saveToDatabase();
-    }
+    
 }
 

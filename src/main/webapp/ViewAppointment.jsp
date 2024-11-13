@@ -12,69 +12,57 @@
 <!DOCTYPE html>
 <html>
     <head>
-
         <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <title>Index - Squadfree Bootstrap Template</title>
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Add Time Range - Aurora Skin Care Clinic</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com" rel="preconnect">
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/opensans-font.css">
-        <link rel="stylesheet" type="text/css" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
-        <!-- Vendor CSS Files -->
+        <!-- Your existing CSS links -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-        <link href="vendor/aos/aos.css" rel="stylesheet">
-        <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-        <link href="vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-        <!-- Main CSS File -->
+        <link href="css/main.css" rel="stylesheet">
         <link href="css/nav_and_footer.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/style.css"/>
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/Form.css" rel="stylesheet">
+
+
     </head>
 
     <body>
-
+        <!-- Header -->
         <header id="header" class="header d-flex align-items-center fixed-top">
-            <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-
+            <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
                 <a href="index.html" class="logo d-flex align-items-center">
-                    <!-- Uncomment the line below if you also wish to use an image logo -->
-                    <!-- <img src="assets/img/logo.png" alt=""> -->
                     <h1 class="sitename">Aurora Skin Care Clinic</h1>
                 </a>
-
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><a href="#hero" class="active">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#services">Services</a></li>
+                        <li><a href="Index.jsp" class="active">Home</a></li>
+                        <li><a href="About.jsp">About</a></li>
+                        <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="TreatmentController?action=list">View Treatment</a></li>
+                                <li><a href="ScheduleController?action=list">View Schedule</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown"><a href="#"><span>Dermatologists</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a href="#">Register Dermatologistst</a></li>
-                                <li><a href="#">View Dermatologistst</a></li>
+                                <li><a href="Registerdermatologist.jsp">Register Dermatologist</a></li>
+                                <li><a href="DermatologistController?action=list">View Dermatologists</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#"><span>Patient</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a href="#">Register Patient</a></li>
-                                <li><a href="#">View Patient</a></li>
+                                <li><a href="PatientRegister.jsp">Register Patient</a></li>
+                                <li><a href="PatientController?action=list">View Patient</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#"><span>Appointment</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a href="#">Make Appointment</a></li>
-                                <li><a href="#">View Appointments</a></li>
+                                <li><a href="AddAppointment.jsp">Make Appointment</a></li>
+                                <li><a href="AppointmentController?action=list">View Appointments</a></li>
                             </ul>
                         </li> 
-
-
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
@@ -141,6 +129,9 @@
                         <td><%= appointment.getTime_range_ID() %></td>
                         <td>
                             <a href="AppointmentController?action=edit&a_ID=<%= appointment.getA_ID() %>" class="edit-appointment btn btn-warning">Edit</a>
+                            
+                            <a href="InvoiceController?action=showForm&a_ID=<%= appointment.getA_ID() %>&p_ID=<%= appointment.getP_ID() %>&t_Price=<%= appointment.getT_Price() %>" class="btn btn-warning">Invoice</a>
+                            
                             <a href="AppointmentController?action=delete&a_ID=<%= appointment.getA_ID() %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this appointment?');">Delete</a>
                         </td>
                     </tr>
@@ -162,14 +153,35 @@
 
              
 
-<footer class="bg-dark text-center text-white">
-    <!-- Copyright -->
-    <div class="text-right p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-        © 2024 Copyright:
-        <a class="text-white" href="">Suraj Herath</a>
-    </div>
-    <!-- Copyright -->
-</footer>   
+<footer id="footer" class="footer bg-dark text-white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <h3>Aurora Skin Care Clinic</h3>
+                        <p>1234 Street, Colombo</p>
+                        <p>Phone: +94 234 567 890</p>
+                        <p>Email: info@auroraskincare.com</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h3>Useful Links</h3>
+                        <ul class="list-unstyled">
+                            <li><a href="index.jsp" class="text-white">Home</a></li>
+                            <li><a href="About.jsp" class="text-white">About Us</a></li>
+                            <li><a href="#" class="text-white">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h3>Our Location</h3>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7921.394273278218!2d79.85675267056916!3d6.92675921935115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae253d10f7a7003%3A0x320b2e4d32d3838d!2sColombo!5e0!3m2!1sen!2slk!4v1729502352015!5m2!1sen!2slk" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-12 text-center">
+                        <p>&copy; 2024 Aurora Skin Care Clinic. All Rights Reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="vendor/php-email-form/validate.js"></script>

@@ -46,7 +46,7 @@ public class AppointmentService {
     
  
 
-    // Method to add an appointment
+   
    // Method to add an appointment
 public boolean addAppointment(Appointment appointment) {
      java.util.Date utilDate = appointment.getA_Date();  // This is a java.util.Date object
@@ -97,25 +97,38 @@ public boolean addAppointment(Appointment appointment) {
 
   // Update an appointment
     public boolean updateAppointment(Appointment appointment) {
-        String sql = "UPDATE Appointment SET p_ID=?, e_ID=?, a_Date=?, a_time=?, t_ID=?, reg_Fee=?, t_Price=?, a_Status=?, schedule_ID=?, time_range_ID=? WHERE a_ID=?";
-        try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, appointment.getP_ID());
-            statement.setString(2, appointment.getE_ID());
-            statement.setDate(4, (Date) appointment.getA_Date());
-            statement.setTime(4, appointment.getA_time());
-            statement.setString(5, appointment.getT_ID());
-            statement.setDouble(6, appointment.getReg_Fee());
-            statement.setDouble(7, appointment.getT_Price());
-            statement.setString(8, appointment.getA_Status());
-            statement.setInt(9, appointment.getSchedule_ID());
-            statement.setInt(10, appointment.getTime_range_ID());
-            statement.setString(11, appointment.getA_ID());
-            return statement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    java.util.Date utilDate = appointment.getA_Date();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+    String query = "UPDATE appointment SET p_ID = ?, e_ID = ?, a_Date = ?, a_time = ?, time_range_ID = ?, schedule_ID = ?, t_ID = ?, reg_Fee = ?, t_Price = ?, a_Status = ? "
+                 + "WHERE a_ID = ?";
+
+    try (Connection connection = db.getConnection();
+         PreparedStatement stmt = connection.prepareStatement(query)) {
+
+        // Set parameters for the prepared statement
+        stmt.setString(1, appointment.getP_ID());
+        stmt.setString(2, appointment.getE_ID());
+        stmt.setDate(3, sqlDate);   // Java.sql.Date
+        stmt.setTime(4, appointment.getA_time());  // Java.sql.Time
+        stmt.setInt(5, appointment.getTime_range_ID());
+        stmt.setInt(6, appointment.getSchedule_ID());
+        stmt.setString(7, appointment.getT_ID());
+        stmt.setDouble(8, appointment.getReg_Fee());
+        stmt.setDouble(9, appointment.getT_Price());
+        stmt.setString(10, appointment.getA_Status());
+        stmt.setString(11, appointment.getA_ID());  // The ID to find the appointment to update
+
+        // Execute the update query
+        int rowsAffected = stmt.executeUpdate();
+        return rowsAffected > 0;  // Return true if one row was updated
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
+
 
 
     // Delete an appointment
@@ -131,7 +144,7 @@ public boolean addAppointment(Appointment appointment) {
     }
 
     // Get an appointment by ID
-    public Appointment getAppointment(String a_ID) {
+    public Appointment getAppointmentbyId(String a_ID) {
         String sql = "SELECT * FROM Appointment WHERE a_ID=?";
         try (Connection connection = db.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, a_ID);
@@ -223,4 +236,6 @@ public boolean addAppointment(Appointment appointment) {
             e.printStackTrace();
         }
     }
+
+    
 }

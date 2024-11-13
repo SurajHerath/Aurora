@@ -4,6 +4,13 @@
  */
 package Controller;
 
+
+import Model.Invoice;
+import Service.InvoiceService;
+import Service.AppointmentService;
+import Model.Appointment;
+import Utils.AuroraSkinCareDB;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,48 +19,60 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
-
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.io.IOException;
+import java.util.Date;
+import java.util.UUID;
 /**
  *
  * @author suraj
  */
-/*@WebServlet(name = "InvoiceController", urlPatterns = {"/InvoiceController"})
+
+@WebServlet(name = "InvoiceController", urlPatterns = {"/InvoiceController"})
 public class InvoiceController extends HttpServlet {
 
-    private AuroraSkinCareDB db = new AuroraSkinCareDB(); // Assumes your database utility class
+    private InvoiceService invoiceService = new InvoiceService();
+    private AppointmentService appointmentService = new AppointmentService();
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if ("showForm".equals(action)) {
+            String appointmentId = request.getParameter("a_ID");
+            Appointment appointment = appointmentService.getAppointmentbyId(appointmentId);
+            request.setAttribute("appointment", appointment);
+            request.getRequestDispatcher("/Invoice.jsp").forward(request, response);
+        }
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String invoiceID = request.getParameter("invoiceID");
-        String appointmentID = request.getParameter("appointmentID");
-        String patientID = request.getParameter("patientID");
-        double taxRate = Double.parseDouble(request.getParameter("taxRate"));
-        double totalFee = Double.parseDouble(request.getParameter("totalFee"));
-        double totalAmount = totalFee + (totalFee * (taxRate / 100));
-        Date issueDate = new Date(); // Assuming issue date is the current date
+        String action = request.getParameter("action");
+        if ("generateInvoice".equals(action)) {
+            String invoiceID = request.getParameter("invoiceID");
+            String appointmentID = request.getParameter("appointmentID");
+            String patientID = request.getParameter("patientID");
+            double taxRate = Double.parseDouble(request.getParameter("taxRate"));
+            double totalFee = Double.parseDouble(request.getParameter("totalFee"));
+            Date issueDate = new Date();
 
-        try (Connection connection = db.getConnection()) {
-            String sql = "INSERT INTO Invoice (invoice_ID, A_ID, P_ID, tax_rate, total_fee, total_amount, issue_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                stmt.setString(1, invoiceID);
-                stmt.setString(2, appointmentID);
-                stmt.setString(3, patientID);
-                stmt.setDouble(4, taxRate);
-                stmt.setDouble(5, totalFee);
-                stmt.setDouble(6, totalAmount);
-                stmt.setDate(7, new java.sql.Date(issueDate.getTime()));
+            // Create a new Invoice, which will automatically calculate Total_Amount
+            Invoice invoice = new Invoice(invoiceID, appointmentID, patientID, taxRate, totalFee, issueDate);
 
-                int rowsInserted = stmt.executeUpdate();
-                if (rowsInserted > 0) {
-                    response.getWriter().write("Invoice generated successfully.");
-                } else {
-                    response.getWriter().write("Failed to generate invoice.");
-                }
+            boolean success = invoiceService.generateInvoice(invoice);
+
+            if (success) {
+                request.setAttribute("invoice", invoice);
+                request.getRequestDispatcher("/FinalInvoice.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("InvoiceController?action=showForm&a_ID=" + appointmentID + "&error=Failed to generate invoice");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            response.getWriter().write("Error generating invoice.");
         }
     }
 }
- */
+

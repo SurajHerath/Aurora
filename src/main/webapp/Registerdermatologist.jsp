@@ -6,139 +6,165 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-
         <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <title>Index - Squadfree Bootstrap Template</title>
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register Dermatologist - Aurora Skin Care Clinic</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com" rel="preconnect">
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/opensans-font.css">
-        <link rel="stylesheet" type="text/css" href="fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
-        <!-- Vendor CSS Files -->
+        <!-- Your existing CSS links -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-        <link href="vendor/aos/aos.css" rel="stylesheet">
-        <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-        <link href="vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-        <!-- Main CSS File -->
+        <link href="css/main.css" rel="stylesheet">
         <link href="css/nav_and_footer.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/style.css"/>
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/Form.css" rel="stylesheet">
+
+
     </head>
 
     <body>
-
+        <!-- Header -->
         <header id="header" class="header d-flex align-items-center fixed-top">
-            <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-
+            <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
                 <a href="index.html" class="logo d-flex align-items-center">
-                    <!-- Uncomment the line below if you also wish to use an image logo -->
-                    <!-- <img src="assets/img/logo.png" alt=""> -->
                     <h1 class="sitename">Aurora Skin Care Clinic</h1>
                 </a>
-
                 <nav id="navmenu" class="navmenu">
                     <ul>
-                        <li><a href="#hero" class="active">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#services">Services</a></li>
+                        <li><a href="Index.jsp" class="active">Home</a></li>
+                        <li><a href="About.jsp">About</a></li>
+                        <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="TreatmentController?action=list">View Treatment</a></li>
+                                <li><a href="ScheduleController?action=list">View Schedule</a></li>
+                            </ul>
+                        </li>
                         <li class="dropdown"><a href="#"><span>Dermatologists</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a href="#">Register Dermatologistst</a></li>
-                                <li><a href="#">View Dermatologistst</a></li>
+                                <li><a href="Registerdermatologist.jsp">Register Dermatologist</a></li>
+                                <li><a href="DermatologistController?action=list">View Dermatologists</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#"><span>Patient</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a href="#">Register Patient</a></li>
-                                <li><a href="#">View Patient</a></li>
+                                <li><a href="PatientRegister.jsp">Register Patient</a></li>
+                                <li><a href="PatientController?action=list">View Patient</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#"><span>Appointment</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
-                                <li><a href="#">Make Appointment</a></li>
-                                <li><a href="#">View Appointments</a></li>
+                                <li><a href="AddAppointment.jsp">Make Appointment</a></li>
+                                <li><a href="AppointmentController?action=list">View Appointments</a></li>
                             </ul>
                         </li> 
-
-
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
                 </nav>
             </div>
         </header>
 
-
-
-        <div id="layoutSidenav_content">
-            <main>
-    <div class="container-fluid px-4">
-        <h1 class="mt-4 text-center"><b>Register Dermatologist</b></h1>
-        <br>
-        <form class="border border-dark py-5 bg-light" action="DermatologistController?action=add" method="POST">
-            <div class="container">
-                <label><b>Dermatologist ID</b></label>
-                <input type="text" name="d_ID" class="form-control my-1" placeholder="Enter Dermatologist ID" required>
-
-                <label><b>Name</b></label>
-                <input type="text" name="d_Name" class="form-control my-1" placeholder="Enter Name" required>
-
-                <label><b>NIC</b></label>
-                <input type="text" name="d_NIC" class="form-control my-1" placeholder="Enter NIC" required>
-
-                <label><b>Phone Number</b></label>
-                <input type="text" name="d_Phone_Number" class="form-control my-1" placeholder="Enter Phone Number" required>
-
-                <label><b>Specialization</b></label>
-                <input type="text" name="d_Specialization" class="form-control my-1" placeholder="Enter Specialization" required>
-
-                <br>
-                <input type="submit" value="ADD Dermatologist" class="btn btn-success container mt-3">
+        <main>
+            <!-- Page Title -->
+            <div class="page-title accent-background" style="background-image:url('img/doctor1.jpg');">
+                <div class="container position-relative">
+                    <h1>Register Dermatologist</h1> 
+                    <a href="#appointmentForm" class="btn-scroll" title="Scroll Down"><i class="bi bi-chevron-down"></i></a>
+                </div>
             </div>
-        </form>
+
+            <section id="appointmentForm" class="appointment-section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="appointment-form">
+                                <h2 class="text-center mb-4">Register New Dermatologist</h2>
+
+
+
+
+                                <form id="addDermatlogistForm" method="POST" action="DermatologistController?action=add"></form>
+
+                                <div class="container">
+                                    <label><b>Dermatologist ID</b></label>
+                                    <input type="text" name="d_ID" class="form-control my-1" placeholder="Enter Dermatologist ID" required>
+
+                                    <label><b>Name</b></label>
+                                    <input type="text" name="d_Name" class="form-control my-1" placeholder="Enter Name" required>
+
+                                    <label><b>NIC</b></label>
+                                    <input type="text" name="d_NIC" class="form-control my-1" placeholder="Enter NIC" required>
+
+                                    <label><b>Phone Number</b></label>
+                                    <input type="text" name="d_Phone_Number" class="form-control my-1" placeholder="Enter Phone Number" required>
+
+                                    <label><b>Specialization</b></label>
+                                    <input type="text" name="d_Specialization" class="form-control my-1" placeholder="Enter Specialization" required>
+
+                                    <br>
+                                    <input type="submit" value="ADD Dermatologist" class="btn btn-success container mt-3">
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-</main>
-    </div>
-                
-       
-        <footer class="bg-dark text-center text-white">
-            <!-- Copyright -->
-            <div class="text-right p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                © 2024 Copyright:
-                <a class="text-white" href="">Suraj Herath</a>
+
+
+    <footer id="footer" class="footer bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h3>Aurora Skin Care Clinic</h3>
+                    <p>1234 Street, Colombo</p>
+                    <p>Phone: +94 234 567 890</p>
+                    <p>Email: info@auroraskincare.com</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3>Useful Links</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="index.jsp" class="text-white">Home</a></li>
+                        <li><a href="About.jsp" class="text-white">About Us</a></li>
+                        <li><a href="#" class="text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h3>Our Location</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7921.394273278218!2d79.85675267056916!3d6.92675921935115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae253d10f7a7003%3A0x320b2e4d32d3838d!2sColombo!5e0!3m2!1sen!2slk!4v1729502352015!5m2!1sen!2slk" width="400" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
-            <!-- Copyright -->
-        </footer>
+            <div class="row mt-4">
+                <div class="col-lg-12 text-center">
+                    <p>&copy; 2024 Aurora Skin Care Clinic. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/jquery.steps.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/Form.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery.steps.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/Form.js"></script>
 
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="vendor/php-email-form/validate.js"></script>
-        <script src="vendor/aos/aos.js"></script>
-        <script src="vendor/purecounter/purecounter_vanilla.js"></script>
-        <script src="vendor/glightbox/js/glightbox.min.js"></script>
-        <script src="vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-        <script src="vendor/isotope-layout/isotope.pkgd.min.js"></script>
-        <script src="vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/php-email-form/validate.js"></script>
+    <script src="vendor/aos/aos.js"></script>
+    <script src="vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="vendor/swiper/swiper-bundle.min.js"></script>
 
-        <!-- Main JS File -->
-        <script src="js/main.js"></script>
-
-
+    <!-- Main JS File -->
+    <script src="js/main.js"></script>
 
 
-    </body>
+
+
+</body>
 </html>
