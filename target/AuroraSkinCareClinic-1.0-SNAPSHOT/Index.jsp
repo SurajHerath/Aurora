@@ -47,12 +47,22 @@
                         <!--     <li><a href="#hero" class="active">Home</a></li>
                              <li><a href="#about">About</a></li>
                              <li><a href="#services">Services</a></li> -->
-                        <li class="dropdown"><a href="#"><span>Dermatologists</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <li class="dropdown"><a href="#"><span>Services</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
                                 <li><a href="Registerdermatologist.jsp">Register Dermatologist</a></li>
-                                <li><a href="DermatologistController?action=list">View Dermatologistst</a></li>
+                                <li><a href="DermatologistController?action=list">View Dermatologist</a></li>
+                                <li><a href="RegisterReceptionist.jsp">Register Receptionist</a></li>
+                                <li><a href="ReceptionistController?action=list">View Receptionist</a></li>
+                                
+                                 <li><a href="AddSchedule.jsp">Add Schedule</a></li>
+                                <li><a href="ScheduleController?action=list">View Schedule</a></li>
+                                <li><a href="AddTimeRange.jsp">Add TimeRange</a></li>
+                                <li><a href="TimeRangeController?action=list">View TimeRange</a></li>
                             </ul>
                         </li>
+                        
+                        
+                        
                         <li class="dropdown"><a href="#"><span>Patient</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
                                 <li><a href="PatientRegister.jsp">Register Patient</a></li>
@@ -60,33 +70,18 @@
                             </ul>
                         </li>
 
-                        <li class="dropdown"><a href="#"><span>Recep</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                                <li><a href="RegisterReceptionist.jsp">Register Receptionist</a></li>
-                                <li><a href="ReceptionistController?action=list">View Receptionist</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown"><a href="#"><span>Tre</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        
+                       
+                        
+                        <li class="dropdown">
+                            <a href="#"><span>Treatment</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
                                 <li><a href="AddTreatment.jsp">Register Treatment</a></li>
                                 <li><a href="TreatmentController?action=list">View Treatment</a></li>
                             </ul>
-                        </li>  
-                        <li class="dropdown"><a href="#"><span>S</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                                <li><a href="AddSchedule.jsp">Add Schedule</a></li>
-                                <li><a href="ScheduleController?action=list">View Schedule</a></li>
-                            </ul>
-                        </li> 
-                        <li class="dropdown">
-                            <a href="#"><span>T</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                            <ul>
-                                <li><a href="AddTimeRange.jsp">Add TimeRange</a></li>
-                                <li><a href="TimeRangeController?action=list">View TimeRange</a></li>
-                            </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#"><span>A</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <a href="#"><span>Appointment</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                             <ul>
                                 <li><a href="AddAppointment.jsp">Add Appointment</a></li>
                                 <li><a href="AppointmentController?action=list">View Appointment</a></li>
@@ -132,32 +127,32 @@
                         <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
                             <div class="service-item position-relative">
                                 <div class="icon"><i class="bi bi-activity icon"></i></div>
-                                <h4><a href="service-details.html" class="stretched-link">Register Patient</a></h4>
-                                <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+                                <h4><a href="PatientRegister.jsp" class="stretched-link">Register Patient</a></h4>
+                                <p>Click Here</p>
                             </div>
                         </div><!-- End Service Item -->
 
                         <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
                             <div class="service-item position-relative">
                                 <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
-                                <h4><a href="service-details.html" class="stretched-link">Make Appointment</a></h4>
-                                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+                                <h4><a href="AddAppointment.jsp" class="stretched-link">Make Appointment</a></h4>
+                                <p>Click Here</p>
                             </div>
                         </div><!-- End Service Item -->
 
                         <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
                             <div class="service-item position-relative">
                                 <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-                                <h4><a href="service-details.html" class="stretched-link">Register Dermatologists</a></h4>
-                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+                                <h4><a href="RegisterDermatologists.jsp" class="stretched-link">Register Dermatologists</a></h4>
+                                <p>Click Here</p>
                             </div>
                         </div><!-- End Service Item -->
 
                         <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
                             <div class="service-item position-relative">
                                 <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                                <h4><a href="service-details.html" class="stretched-link">Add New Treatment</a></h4>
-                                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                                <h4><a href="AddTreatment.jsp" class="stretched-link">Add New Treatment</a></h4>
+                                <p>Click Here</p>
                             </div>
                         </div><!-- End Service Item -->
                         </section>   
@@ -177,32 +172,32 @@
                                     <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
                                         <div class="service-item position-relative">
                                             <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                                            <h4><a href="service-details.html" class="stretched-link">View Patients</a></h4>
-                                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                                            <h4><a href="PatientController?action=list" class="stretched-link">View Patients</a></h4>
+                                            <p>Click Here</p>
                                         </div>
                                     </div><!-- End Service Item -->
 
                                     <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
                                         <div class="service-item position-relative">
                                             <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                                            <h4><a href="service-details.html" class="stretched-link"></a>View Appointments</h4>
-                                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                                            <h4><a href="AppointmentController?action=list" class="stretched-link"></a>View Appointments</h4>
+                                            <p>Click Here</p>
                                         </div>
                                     </div><!-- End Service Item -->
 
                                     <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
                                         <div class="service-item position-relative">
                                             <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                                            <h4><a href="service-details.html" class="stretched-link">View Dermatologists</a></h4>
-                                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                                            <h4><a href="DermatologistController?action=list" class="stretched-link">View Dermatologists</a></h4>
+                                            <p>Click Here</p>
                                         </div>
                                     </div><!-- End Service Item -->
 
                                     <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
                                         <div class="service-item position-relative">
                                             <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                                            <h4><a href="service-details.html" class="stretched-link">View Treatment</a></h4>
-                                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                                            <h4><a href="TreatmentController?action=list" class="stretched-link">View Treatment</a></h4>
+                                            <p>Click Here</p>
                                         </div>
                                     </div><!-- End Service Item -->
                                 </div>
@@ -215,7 +210,7 @@
                         <section id="Billing" class="services section">
                             <div class="container section-title" data-aos="fade-up">
                                 <h2>Billing </h2>
-                                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+                                
                             </div>
 
                             <div class="container">
@@ -224,8 +219,8 @@
                                     <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
                                         <div class="service-item position-relative">
                                             <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                                            <h4><a href="service-details.html" class="stretched-link">Invoice</a></h4>
-                                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                                            <h4><a href="AppointmentController?action=list" class="stretched-link">Invoice</a></h4>
+                                            <p>Click Here</p>
                                         </div>
                                     </div>
                                 </div>    
@@ -244,8 +239,8 @@
                                 <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
                                     <div class="col-xl-10">
                                         <div class="text-center">
-                                            <h3>Today Appoinmnets</h3>
-                                            <a class="cta-btn" href="#">Check</a>
+                                            <h3>Appoinmnets</h3>
+                                            <a class="cta-btn" href="AppointmentController?action=list">Check</a>
                                         </div>
                                     </div>
                                 </div>
